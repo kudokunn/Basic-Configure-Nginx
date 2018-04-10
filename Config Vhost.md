@@ -61,7 +61,11 @@
     }
 
 * Thêm đường dẫn thư mục root /data/systemtip.tk chứa code và đường dẫn của file log /var/log/nginx/systemtip.tk/.Ở đây tạo một file php đơn giản check info php
-Bản chất hoạt động: Khi client request đến server, server biết được trường hosts có chứa tên website, từ đó server sẽ tìm tên miền đó trong tất cả các fiel cấu hình có nameserver trùng với tên miền web đó. Nếu trùng thì đọc thư mục root chứa code web và ghi log
+* Bản chất hoạt động: Khi client request đến server, server biết được trường hosts có chứa tên website, từ đó server sẽ tìm tên miền đó trong tất cả các fiel cấu hình có nameserver trùng với tên miền web đó. Nếu trùng thì đọc thư mục root chứa code web và ghi log
+* Tạo xác thực cơ bản: tạo file .htpasswd bằng cách: htpasswd -c pwfile username để lưu mật khẩu người dùng và khai báo:
+        
+        #auth_basic "private site";#linh dong theo location
+        #auth_basic_user_file /etc/nginx/.htpasswd; #linh dong theo location
 
 ## Thêm: Cài đặt php-fpm để nginx có thể biên dịch file php
 Bản thân nginx không hỗ trợ xử lý php. Việc xử lý php sẽ do một service khác đảm nhận. Nginx sẽ forward request đến service này và nhận kết quả về. Service này là php-fpm.
