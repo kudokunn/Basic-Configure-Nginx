@@ -96,11 +96,18 @@ include /etc/nginx/upstream;
 Tạo file với tên là upstream: vim /etc/nginx/upstream.
 
       upstream system {
+           # defalt is  round-robin
+           # least_conn;
+           # ip_hash;
           server 10.140.0.2:80 max_fails=3 fail_timeout=10s; #BACKEND1
           server 10.146.0.3:80 weight=2 max_fails=3 fail_timeout=10s; #BACKEND2
       }
 * Note: 
-- Ở đây cấu hình thêm phần thuật toán sử dụng và health check cho 2 con backend. Ở đây theo thuật toán cân bằng tải trọng với tham số weight định nghĩa. Backend 2 có weight=2 và Backend 1 bằng 1. Vậy khi có 3 request đến thì 1 request ban đầu vào backend 1, 2 request tiếp vào Backend 2.
+- Có 3 thuật toán được sử dụng:
++ Round-robin: các request được đẩy lần lượt 1:1
++ Thuật toán least_conn load balancer sẽ điều hướng request tới server có ít active connection nhất
++ ip_hash: Hash được sinh từ 3 chỉ số đầu của một IP, do đó tất cả request của một IP sẽ đc điều hướng tới cùng một backend.
+- Ở đây cấu hình thêm phần thuật toán sử dụng và health check cho 2 con backend. Ở đây theo thuật toán cân bằng tải trọng  với tham số weight định nghĩa. Backend 2 có weight=2 và Backend 1 bằng 1. Vậy khi có 3 request đến thì 1 request ban đầu vào backend 1, 2 request tiếp vào Backend 2.
 - Cấu hình health check: với hai tham số là max_fails=3 fail_timeout=10s. Ví dụ nếu BE2 2 chết thì BE không nhận được đợi phản backend 2. Nó sẽ đếm thời gian timeout, quá một lần thời gian timeout là 1 lần fails. Vậy mất 30s để 3 lần fails. Và khi đó request lại bị đẩy lại backend 2 vì tham số weight cấu hình, vậy mất thêm 30s nữa cho lần 2 => Khoảng 1p sau thì LB mới đẩy lại request cho BE1 xử lý.
 - Trường hợp BE2 vấn sống nhưng code web bị hỏng báo lỗi 403 hay lỗi mã lỗi gì đấy, phản hồi từ BE2 về LB vẫn con nhưng đó là một respone lỗi, vậy để LB phân biệt được các respone bị lỗi và respone bình thường thì chỉ cần cấu hình thêm tham số: "proxy_next_upstream error http_403;" trong phần dưới để LB nhận biết respone lỗi và đẩy request đến backend tiếp
 
