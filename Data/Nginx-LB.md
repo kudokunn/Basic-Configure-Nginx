@@ -96,8 +96,8 @@ include /etc/nginx/upstream;
 Tạo file với tên là upstream: vim /etc/nginx/upstream.
 
       upstream system {
-          server 10.140.0.2:80 max_fails=3 fail_timeout=10s;
-          server 10.146.0.3:80 weight=2 max_fails=3 fail_timeout=10s;
+          server 10.140.0.2:80 max_fails=3 fail_timeout=10s; #BACKEND1
+          server 10.146.0.3:80 weight=2 max_fails=3 fail_timeout=10s; #BACKEND2
       }
 * Note: 
 - Ở đây cấu hình thêm phần thuật toán sử dụng và health check cho 2 con backend. Ở đây theo thuật toán cân bằng tải trọng với tham số weight định nghĩa. Backend 2 có weight=2 và Backend 1 bằng 1. Vậy khi có 3 request đến thì 1 request ban đầu vào backend 1, 2 request tiếp vào Backend 2.
