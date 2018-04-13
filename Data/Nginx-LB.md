@@ -1,6 +1,7 @@
-* Mô hình: Hình 1.PNG
+## Mô hình:
+![](image/1.PNG)
 
-# Trên LB:
+### Trên LB:
 
 * Trỏ 2 tên miền systemtip.tk và tipsystem.tk vào IP public của LB và tạo 2 file cấu hình cho 2 website trong thư mục conf.d/ cho 2 tên miền đó để chạy: 
 * Ví dụ: 
