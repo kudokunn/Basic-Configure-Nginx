@@ -1,4 +1,5 @@
 ## Mô hình:
+
 ![](image/1.PNG)
 
 ### Trên LB:
