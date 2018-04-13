@@ -1,6 +1,6 @@
 ## Mô hình:
 
-![](image/1.PNG)
+![1.PNG](image/1.PNG)
 
 ### Trên LB:
 
