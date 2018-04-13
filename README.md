@@ -7,4 +7,14 @@
 + Proxy nginx có thể được dùng như là một application firewall để chống đỡ các cuộc tấn công (như Tấn công từ chối dịch vụ) vào các ứng dụng web.
 + Proxy caching nội dung web server gửi và "rót" từ từ đến các máy khách hoạt động chậm. Máy chủ mạng không phải đợi máy khác
 + Nhằm giúp giảm tải máy chủ mạng proxy có thể cache các nội dung tĩnh như hình ảnh, tập tin.
+# Cài đặt: có thể cài đặt nginx nhanh chóng bằng lệnh yum 
+Centos: yum install -y nginx
+Ubuntu: apt-get install nginx -y
+Khởi chạy dịch vụ và enable: systemctl start nginx && systemctl enable nginx
+Nhập ip của server cài Nginx. Nếu hiện tittle của Nginx đã cài đặt thành công
 # Cấu hình:
+## 1. Cấu hình vhost [tại đây](Data/vhost.md)
+
+## 2. Cấu hình SSL [tại đây](Data/SSL.md)
+
+## 3. Cấu hình Load balancing [tại đây](Data/Nginx-LB.md)
