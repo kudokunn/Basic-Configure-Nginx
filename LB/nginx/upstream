@@ -1,0 +1,14 @@
+upstream system {
+	server 10.140.0.2:80 max_fails=3 fail_timeout=10s;
+	server 10.146.0.3:80 weight=2 max_fails=3 fail_timeout=10s;
+	keepalive 20; # maintain a maximum of 20 idle connections to each upstream server
+	# mot so ket noi danh "cache" lai. khi co 1 request, no se dung luon ket noi nay hon viec tao mot ket noi TCP => giam do tre khi truyen giua nginx va upstrem => nginx co the xu ly va can bang mot luong luon traffic
+}
+
+#upstream system {
+#        ip_hash;
+#        server 10.140.0.2:80 max_fails=3 fail_timeout=10s;
+#        server 10.146.0.3:80 weight=2 max_fails=3 fail_timeout=10s;
+#	 keepalive: 30; #thuc te con cau hinh nay nua
+#}
+

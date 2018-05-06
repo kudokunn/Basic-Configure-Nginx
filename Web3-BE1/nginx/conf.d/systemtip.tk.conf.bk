@@ -1,0 +1,44 @@
+server{
+     	listen       80;
+     	server_name systemtip.tk www.systemtip.tk;
+     	#root /data/systemtip.tk/public_html;
+     	error_log  /var/log/nginx/systemtip.tk/error.log error;
+     	access_log  /var/log/nginx/systemtip.tk/access.log  main;
+     	#access_log off; #disable log_access
+	#error_log off; # khong giong nhu access_log off, error_log off van luu file log_error nhung o thu muc /usr/share/nginx/off
+	#error_log /dev/null; # disable bo log_error
+     
+	location /{
+	root /data/systemtip.tk/public_html;
+	index index.php index.html;
+	 try_files $uri $uri/ /index.php?$args;
+     }    
+     
+     location /private {
+     	index index.html index.php;
+     	try_files $uri $uri/ /index.php?$request_uri; 
+	#auth_basic "private site";#linh dong theo location
+     	#auth_basic_user_file /etc/nginx/.htpasswd; #linh dong theo location
+	if (-f $request_filename) {
+        expires 30d;
+        break;
+}
+
+if (!-e $request_filename) {
+        rewrite ^(.+)$ /index.php?q=$1 last;
+        }
+}
+
+    location ~ \.php {
+    	#fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;
+    	#fastcgi_index   index.php;
+    	#include         /etc/nginx/fastcgi_params;
+    	#fastcgi_param   SCRIPT_FILENAME /data/systemtip.tk/public_html/$fastcgi_script_name;
+	include /etc/nginx/fastcgi_params;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+	        fastcgi_param PATH_INFO               $fastcgi_script_name;
+        fastcgi_param SCRIPT_FILENAME /data/systemtip.tk/public_html$fastcgi_script_name;
+    }
+}
+ 

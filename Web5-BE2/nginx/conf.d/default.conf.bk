@@ -1,0 +1,34 @@
+server{
+     	listen       80;
+     	server_name systemtip.tk www.systemtip.tk tipsystem.tk www.tipsystem.tk;
+     	error_log  /var/log/nginx/alldomain/all_error.log error; # lam sao khi nhieu host
+     	access_log  /var/log/nginx/alldomain/all_access.log  main;# nt
+     
+     location /{
+    	#index index.html index.php;
+	#allow 42.114.168.71;
+	#deny all;
+	proxy_pass http://system;
+        proxy_set_header HOST $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;	     
+     }    
+     
+     #location /private{
+     #	index index.html index.php;
+     #	auth_basic "private site";
+     #	auth_basic_user_file /etc/nginx/.htpasswd; 
+ 
+     #}
+
+    location ~ \.php {
+    	fastcgi_pass unix:/var/run/php_fpm.sock;
+    	fastcgi_index   index.php;
+    	include         /etc/nginx/fastcgi_params;
+    	fastcgi_param   SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+}
+
+}
+
+ 

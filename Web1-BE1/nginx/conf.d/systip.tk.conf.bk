@@ -1,0 +1,27 @@
+server { 
+   listen 80; 
+   server_name systip.tk www.systip.tk;
+   location / { 
+     return 301 https://systip.tk$request_uri; 
+   } 
+} 
+
+server{
+     listen 443;
+     server_name systip.tk www.systip.tk
+     error_log  /var/log/nginx/systip.tk_error.log error;
+     access_log  /var/log/nginx/systip.tl_access.log  main;
+     ssl on;
+     ssl_certificate /etc/letsencrypt/live/systip.tk/fullchain.pem;
+     ssl_certificate_key /etc/letsencrypt/live/systip.tk/privkey.pem;
+
+     location /{
+        index index.html index.php;
+        proxy_pass http://backend;
+        proxy_set_header        Host $host;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $scheme;
+     }
+}
+
